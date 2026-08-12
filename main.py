@@ -1,4 +1,5 @@
 import os
+import argparse
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -7,18 +8,21 @@ from openai import OpenAI
 def main():
     load_dotenv()
     api_key = os.environ.get("OPENROUTER_API_KEY")
-    if api_key == None:
+    if api_key is None:
         raise RuntimeError("API Key not found")
-
     client = OpenAI(
         base_url = "https://openrouter.ai/api/v1",
         api_key=api_key,
     )
 
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User prompt")
+    args = parser.parse_args()
+    
     messages=[
         {
             "role": "user",
-            "content": "Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum.",
+            "content": args.user_prompt,
             # "content": "Which model are you?"
         }
     ]
@@ -26,9 +30,15 @@ def main():
     response = client.chat.completions.create(messages=messages, model="openrouter/free")
 
         
-    if not (response.usage.prompt_tokens == None or response.usage.completion_tokens == None):
-        print(f"Prompt tokens: {response.usage.prompt_tokens}\nResponse tokens: {response.usage.completion_tokens}\n\nUser prompt: {messages[0]["content"]}\nResponse: {response.choices[0].message.content}")
+    if response.usage:
+        print(
+            f"Prompt tokens: {response.usage.prompt_tokens}\n"
+            f"Response tokens: {response.usage.completion_tokens}\n\n"
+            f"User prompt: {messages[0]["content"]}\n"
+            f"Response: {response.choices[0].message.content}"
+        )
     else:
         raise RuntimeError("Token usage not found")
+
 if __name__ == "__main__":
     main()
