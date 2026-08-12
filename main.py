@@ -17,6 +17,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Chatbot")
     parser.add_argument("user_prompt", type=str, help="User prompt")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
     
     messages=[
@@ -30,13 +31,15 @@ def main():
     response = client.chat.completions.create(messages=messages, model="openrouter/free")
 
         
-    if response.usage:
+    if response.usage and args.verbose:
         print(
-            f"Prompt tokens: {response.usage.prompt_tokens}\n"
-            f"Response tokens: {response.usage.completion_tokens}\n\n"
-            f"User prompt: {messages[0]["content"]}\n"
+            f"Prompt tokens: {response.usage.prompt_tokens}\n\n"
+            f"Response tokens: {response.usage.completion_tokens}\n\n\n"
+            f"User prompt: {messages[0]["content"]}\n\n"
             f"Response: {response.choices[0].message.content}"
         )
+    elif response.usage and not args.verbose:
+        print(f"Response: {response.choices[0].message.content}")
     else:
         raise RuntimeError("Token usage not found")
 
