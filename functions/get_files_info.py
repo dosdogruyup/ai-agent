@@ -2,7 +2,7 @@ import os
 from collections.abc import Callable
 from typing import Any
 
-def format_text(file: str, target_dir: str):
+def format_text(file: str, target_dir: str) -> str:
     try:
         full_path = os.path.join(target_dir, file)
         file_size = os.path.getsize(full_path)
