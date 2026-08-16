@@ -37,10 +37,7 @@ def get_files_info(working_directory: str, directory: str = ".") -> str:
     elif not  os.path.isdir(target_dir):
         return f'Error: "{directory}" is not a directory'
     else:
-        return (
-            f'Success: "{directory}" is within the working directory\n\n'
-            f'{"\n".join([format_text(file, target_dir) for file in os.listdir(target_dir)])}'
-        )
+        return (f'{"\n".join([format_text(file, target_dir) for file in os.listdir(target_dir)])}')
             
         
         
