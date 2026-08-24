@@ -8,3 +8,6 @@ dependencies = [
     "openai==2.44.0",
     "python-dotenv==1.1.0",
 ]
+[tool.basedpyright]
+typeCheckingMode = "standard"
+reportUnusedCallResult = "none"

@@ -1,8 +1,8 @@
-import os
 import argparse
+import os
+
 from dotenv import load_dotenv
 from openai import OpenAI
-
 
 
 def main() -> None:
@@ -19,18 +19,16 @@ def main() -> None:
     parser.add_argument("user_prompt", type=str, help="User prompt")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
-    
-    messages=[
+
+    messages: list=[
         {
             "role": "user",
             "content": args.user_prompt,
             # "content": "Which model are you?"
         }
     ]
-    
     response = client.chat.completions.create(messages=messages, model="openrouter/free")
 
-        
     if response.usage and args.verbose:
         print(
             f"Prompt tokens: {response.usage.prompt_tokens}\n\n"
