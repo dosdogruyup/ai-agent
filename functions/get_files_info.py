@@ -1,5 +1,7 @@
 import os
 
+from openai.types.chat import ChatCompletionFunctionToolParam
+
 
 def format_text(file: str, target_dir: str) -> str:
     try:
@@ -24,7 +26,7 @@ def get_files_info(working_directory: str, directory: str = ".") -> str:
     except Exception as e:  # noqa: BLE001
         return f"Error: {e}"
 
-schema_get_files_info = {
+schema_get_files_info: ChatCompletionFunctionToolParam = {
     "type": "function",
     "function": {
         "name": "get_files_info",
