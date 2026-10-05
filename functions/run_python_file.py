@@ -53,6 +53,7 @@ schema_run_python_file: ChatCompletionFunctionToolParam = {
                 },
                 "args": {
                     "type": "array",
+                    "items": {"type": "string"},
                     "description": "A list of arguments to run the Python file with"
                 }
             },
