@@ -1,5 +1,7 @@
 import os
 
+from openai.types.chat import ChatCompletionFunctionToolParam
+
 from config import MAX_CHARS
 
 
@@ -18,5 +20,25 @@ def get_file_content(working_directory: str, file_path: str) -> str:
                 if f.read(1):
                     file_content_string = file_content_string + f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
                 return f"Success!\n\n{file_content_string}"
-    except Exception as e:
+    except Exception as e: #noqa: BLE001
         return f"Error: {e}"
+
+schema_get_file_content: ChatCompletionFunctionToolParam = {
+    "type": "function",
+    "function": {
+        "name": "get_file_content",
+        "description": "Provides the content of the given file in the working directory, in the provided filepath",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "file_path": {
+                    "type": "string",
+                    "description": "The filepath for the file that is gonna read, relative to working directory (default is the working directory itself)"
+                }
+            },
+            "required": [
+                "file_path",
+            ]
+        }
+    }
+}
