@@ -1,7 +1,7 @@
 import json
 from collections.abc import Callable
 
-from openai.types.chat import ChatCompletionToolUnionParam
+from openai.types.chat import ChatCompletionMessageParam, ChatCompletionToolUnionParam
 
 from functions.get_file_content import get_file_content, schema_get_file_content
 from functions.get_files_info import get_files_info, schema_get_files_info
@@ -22,7 +22,7 @@ function_map: dict[str, Callable[..., str]] = {
     "write_file": write_file,
 }
 
-def call_function(tool_call, verbose: bool = False) -> dict:
+def call_function(tool_call, verbose: bool = False) -> ChatCompletionMessageParam:
     function_name = tool_call.function.name
     function_args = json.loads(tool_call.function.arguments or "{}")
 

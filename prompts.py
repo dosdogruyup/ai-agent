@@ -8,5 +8,7 @@ When a user asks a question or makes a request, make a function call plan. You c
 - Execute Python files with optional arguments
 - Write or overwrite files
 
+Do not try to guess the function names and check for functions to use from the list of available functions to you.
+
 All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
 """
